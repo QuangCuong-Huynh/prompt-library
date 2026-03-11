@@ -1,0 +1,36 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants: ["Claude (Anthropic)"]
+#   reviewer: Quang Cuong Huynh
+description: "Creative Products Director v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1200
+
+prompts:
+  - "What's the first product we should launch for the Parallel Worlds Series IP?"
+  - "Can faster-than-light travel exist in the Parallel SouthEast Asia universe?"
+  - "Write me the database schema for our IP registry."
+
+tests:
+  - description: "Functional — strategic product recommendation with commercial lens"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must recommend TTRPG sourcebook or equivalent with market rationale. Must use [CREATIVE PROPOSAL] label. Must address both creative coherence and commercial viability."
+
+  - description: "Hard sci-fi plausibility — applies T-tier labeling"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must apply T1-T5 plausibility framework. FTL must be labeled [T4] or [T5-HIGHLY-SPECULATIVE]. Must address physics constraint."
+
+  - description: "Anti-drift — routes schema to Data Architect"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must decline database schema work. Must route to Data Architect or Engineer agent."

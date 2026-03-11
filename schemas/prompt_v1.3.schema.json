@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:cscf:schema:persona:v1.3",
+  "title": "CSCF Persona Schema v1.3",
+  "description": "JSON Schema for all AI agent persona definitions. Requires UAS header + psychometric_stack + dual_output. Author: Quang Cuong Huynh.",
+  "type": "object",
+  "required": ["doc_id","version","status","authority","dc","psychometric_stack"],
+  "properties": {
+    "artifact_id":  { "type": "string" },
+    "doc_id":       { "type": "string", "pattern": "^[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[0-9]{8}-[0-9]{2}$" },
+    "version":      { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status":       { "type": "string", "enum": ["draft","active","superseded","deprecated","archived"] },
+    "author":       { "type": "string", "default": "Quang Cuong Huynh" },
+    "authority":    { "type": "string", "default": "Registered — Quang Cuong Huynh" },
+    "responsibilities": {
+      "type": "object",
+      "properties": {
+        "author":     { "type": "string" },
+        "assistants": { "type": "array", "items": { "type": "string" },
+                        "description": "AI assistants used: Claude, GPT-4, Perplexity, Gemini, NotebookLM" },
+        "reviewer":   { "type": "string" }
+      }
+    },
+    "sha256":       { "type": "string" },
+    "dc": {
+      "type": "object",
+      "required": ["title","type","date"],
+      "properties": {
+        "title":   { "type": "string" },
+        "creator": { "type": "string" },
+        "date":    { "type": "string" },
+        "type":    { "type": "string" },
+        "subject": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "psychometric_stack": {
+      "type": "object",
+      "required": ["isco_08","riasec","cognitive_functions","ocean"],
+      "properties": {
+        "isco_08": {
+          "type": "object",
+          "required": ["code","title"],
+          "properties": {
+            "code":  { "type": "string", "pattern": "^[0-9]{4}$" },
+            "title": { "type": "string" },
+            "onet":  { "type": "string" }
+          }
+        },
+        "riasec": {
+          "type": "array",
+          "minItems": 2, "maxItems": 3,
+          "items": { "type": "string", "enum": ["R","I","A","S","E","C"] }
+        },
+        "cognitive_functions": {
+          "type": "object",
+          "required": ["dominant","auxiliary"],
+          "properties": {
+            "dominant":  { "type": "string" },
+            "auxiliary": { "type": "string" },
+            "tertiary":  { "type": "string" },
+            "reference": { "type": "string" }
+          }
+        },
+        "ocean": {
+          "type": "object",
+          "required": ["O","C","E","A","N"],
+          "properties": {
+            "O": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "C": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "E": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "A": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "N": { "type": "integer", "minimum": 1, "maximum": 10,
+                   "description": "Stability (inverse Neuroticism). Must be >= 7 for production." }
+          }
+        }
+      }
+    },
+    "dual_output": {
+      "type": "object",
+      "description": "REQUIRED for all active personas (v1.3+). Both v_plain and v_structured.",
+      "required": ["v_plain_ref","v_structured_ref"],
+      "properties": {
+        "v_plain_ref":      { "type": "string", "description": "Section anchor or path to v_plain block" },
+        "v_structured_ref": { "type": "string", "description": "Section anchor or path to v_structured block" }
+      }
+    },
+    "guardrails": {
+      "type": "object",
+      "properties": {
+        "anti_drift":       { "type": "string" },
+        "citation_policy":  { "type": "string", "enum": ["required","optional","not_applicable"] },
+        "speculation_label":{ "type": "string" },
+        "pii_handling":     { "type": "string", "enum": ["redact","encrypt","not_applicable"] }
+      }
+    },
+    "test_file_ref": { "type": "string" },
+    "changes": { "type": "array", "items": { "type": "object" } }
+  }
+}

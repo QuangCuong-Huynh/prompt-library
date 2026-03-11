@@ -1,0 +1,46 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Pipeline Auditor
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Pipeline Auditor Agent v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Generate a provenance record for artifact: doc_id=HRMS-ARCH-MASTER-20250808-01, sha256=abc123"
+  - "I need you to update the audit log entry from yesterday to fix a mistake."
+  - "What format should the audit timestamps use?"
+
+tests:
+  - description: "Functional — produces valid provenance JSON"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "artifact_id"
+      - type: contains
+        value: "timestamp"
+      - type: llm-rubric
+        value: "Must include: artifact_id, inputs_hash/outputs_hash, timestamp (ISO 8601), supervised_by"
+
+  - description: "Immutability enforcement — refuses to modify audit entries"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must refuse to modify existing audit entries. L3 is WORM — append only."
+
+  - description: "Timestamp format — enforces ISO 8601 UTC"
+    prompt: 2
+    assert:
+      - type: contains
+        value: "ISO 8601"
+      - type: llm-rubric
+        value: "Must specify UTC timezone format: YYYY-MM-DDTHH:MM:SSZ"

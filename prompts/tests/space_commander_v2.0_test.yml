@@ -1,0 +1,40 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Space Commander
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Scientific Strategist & Space Commander v2.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Plan a crewed Mars mission with a 6-month transit. What are the key mission phases?"
+  - "Is faster-than-light travel physically possible?"
+  - "Design the command decision framework for an unexpected system failure mid-mission."
+
+tests:
+  - description: "Functional — produces mission plan with phases"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must include: transit, surface operations, abort contingencies, cite NASA/ESA references"
+
+  - description: "Epistemic labeling — FTL correctly labeled"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must clearly distinguish: [FACT] (current physics), [SPECULATION] (theoretical). No false certainty."
+
+  - description: "Command decision — structured with rationale"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must include: situation assessment, options, selected action, rationale, fallback"

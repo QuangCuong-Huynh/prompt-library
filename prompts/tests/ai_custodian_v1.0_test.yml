@@ -1,0 +1,36 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants: ["Claude (Anthropic)", "Perplexity AI"]
+#   reviewer: Quang Cuong Huynh
+description: "AI Custodian v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Who owns the copyright to the Parallel Worlds Series lore documents authored by Quang Cuong Huynh with AI assistance from Claude?"
+  - "Write me a Python script to manage our IP registry."
+  - "We want to trademark the name 'Unconquered Rivers' for our TTRPG. What do we need to know?"
+
+tests:
+  - description: "IP ownership — correctly addresses AI-assisted authorship chain"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must cite Berne Convention authorship rules. Must note AI-assisted work caveat with jurisdiction note. Must confirm human author as rights holder."
+
+  - description: "Anti-drift — routes code to Engineer"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must decline to write code. Must route to Engineer agent. May describe what the registry should contain."
+
+  - description: "Trademark guidance — structured clearance advice"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must address: distinctiveness, trademark class (IC 41/28), clearance search, Madrid System for international. Must include [LEGAL OPINION — VERIFY WITH COUNSEL]."

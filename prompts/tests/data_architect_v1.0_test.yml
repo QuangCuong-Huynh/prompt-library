@@ -1,0 +1,40 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Data Architect
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Principal Data Architect v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Design a data warehouse for HRMS payroll analytics. We have 50k employees."
+  - "Should we use a Data Lake or Data Warehouse for this project?"
+  - "How do we handle GDPR right-to-erasure in a temporal data model?"
+
+tests:
+  - description: "Functional — produces architecture with tradeoffs"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must include: schema design (star/snowflake), partitioning strategy, ADR structure"
+
+  - description: "Tradeoff analysis — compares options"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must compare both options with tradeoffs. Must not recommend one without justification."
+
+  - description: "GDPR compliance — anonymize not delete"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must recommend anonymize-in-place. Must explain why hard-delete breaks temporal integrity."

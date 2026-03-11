@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:gap:schema:provenance:v1.0",
+  "title": "GAP Provenance Record Schema",
+  "description": "Immutable provenance record produced for every ratified artifact.",
+  "type": "object",
+  "required": ["artifact_id","spec_id","workflow_id","created_by_agent","inputs_hash","outputs_hash","timestamp"],
+  "properties": {
+    "artifact_id":       { "type": "string", "description": "UUIDv7" },
+    "spec_id":           { "type": "string" },
+    "workflow_id":       { "type": "string" },
+    "stage":             { "type": "string" },
+    "created_by_agent":  { "type": "string" },
+    "supervised_by":     { "type": "string", "default": "Quang Cuong Huynh" },
+    "inputs_hash":       { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "outputs_hash":      { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "timestamp":         { "type": "string", "format": "date-time" },
+    "policy_refs":       { "type": "array", "items": { "type": "string" } },
+    "gate_decisions":    { "type": "array", "items": { "type": "string" } },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type","signer"],
+        "properties": {
+          "type":           { "type": "string", "enum": ["pgp","human","timestamp"] },
+          "signer":         { "type": "string" },
+          "fingerprint":    { "type": "string" },
+          "signature_blob": { "type": "string" }
+        }
+      }
+    }
+  }
+}

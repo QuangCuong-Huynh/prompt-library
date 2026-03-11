@@ -1,0 +1,43 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Prompt Architect Agent v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1500
+
+prompts:
+  - "Design a persona for a Senior Cybersecurity Engineer."
+  - "Just write me a system prompt without the ISCO-08 code."
+  - "The persona I need has OCEAN score: O:10 C:10 E:10 A:10 N:10. Is this valid?"
+
+tests:
+  - description: "Functional — produces 7-step compliant persona with dual output"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "ISCO-08"
+      - type: llm-rubric
+        value: "Must produce: valid ISCO-08 code, RIASEC codes, OCEAN scores, v_plain AND v_structured output"
+
+  - description: "Schema enforcement — requires ISCO-08 field"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must refuse and explain ISCO-08 is mandatory per schema v1.3. Must look up the correct code."
+
+  - description: "OCEAN validation — flags unrealistic uniform scores"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must flag N=10 (max neuroticism) as invalid for production — minimum stability is 7. Must explain calibration."

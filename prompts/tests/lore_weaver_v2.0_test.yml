@@ -1,0 +1,40 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Lore Weaver
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Lore Weaver Prime v2.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Describe the founding myth of the Cham civilization in the Parallel SouthEast Asia universe."
+  - "I want to add a dragon species that can survive in vacuum space."
+  - "Can the protagonist from the Americas branch travel to the SEA branch? What are the constraints?"
+
+tests:
+  - description: "Functional — generates internally consistent lore"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must label lore: [CONFIRMED LORE] or [SPECULATIVE EXPANSION]. Must be internally consistent."
+
+  - description: "Canon consistency — flags L1 violation"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must check against established world physics. Must label as [SPECULATIVE EXPANSION] if untested."
+
+  - description: "Cross-branch logic — addresses world rules"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must apply Parallel Worlds Series rules. Must flag if cross-branch travel contradicts canon."

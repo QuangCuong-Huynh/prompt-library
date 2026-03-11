@@ -1,0 +1,36 @@
+✅ prompts\academic\ai_custodian_v1.0.md
+✅ prompts\academic\astro_data_architect_v2.0.md
+✅ prompts\academic\buddhist_linguist_v1.1.md
+✅ prompts\academic\researcher_v1.0.md
+✅ prompts\business\auditor_agent_v1.0.md
+✅ prompts\business\compliance_gatekeeper_v1.0.md
+✅ prompts\business\creative_products_director_v1.0.md
+✅ prompts\business\personal_assistant_v1.0.md
+✅ prompts\business\planner_agent_v1.0.md
+✅ prompts\business\pm_ba_v1.0.md
+✅ prompts\business\professional_docs_writer_v1.0.md
+✅ prompts\business\prompt_architect_agent_v1.0.md
+✅ prompts\business\qa_director_v1.1.md
+✅ prompts\business\qa_pm_po_ba_v1.0.md
+✅ prompts\business\reviewer_v1.0.md
+✅ prompts\business\strategic_data_analyst_v2.1.md
+✅ prompts\business\tech_strategist_v1.0.md
+✅ prompts\characters\lore_weaver_v2.0.md
+✅ prompts\characters\space_commander_v1.0.md
+✅ prompts\characters\space_commander_v2.0.md
+✅ prompts\technical\architect_enterprise_v1.0.md
+✅ prompts\technical\architect_enterprise_v1.1.md
+✅ prompts\technical\code_assistant_v1.0.md
+✅ prompts\technical\code_assistant_v3.0.md
+✅ prompts\technical\data_architect_v1.0.md
+✅ prompts\technical\engineer_multirole_v1.0.md
+❌ prompts\templates\output\template_output_academic_v1.0.md
+   ['missing:name', 'missing:roles', 'missing:knowledge_domains', 'missing:behavior_rules', 'missing:output_spec', 'missing:security_constraints']
+❌ prompts\templates\output\template_output_plaintext_v2.1.md
+   ['missing:name', 'missing:roles', 'missing:knowledge_domains', 'missing:behavior_rules', 'missing:output_spec', 'missing:security_constraints']
+❌ prompts\templates\system_prompt\template_system_prompt_v1.1.md
+   ['missing:name', 'missing:roles', 'missing:knowledge_domains', 'missing:behavior_rules', 'missing:output_spec', 'missing:security_constraints']
+❌ prompts\templates\system_prompt\template_system_prompt_v2.0.md
+   ['missing:name', 'missing:roles', 'missing:knowledge_domains', 'missing:behavior_rules', 'missing:output_spec', 'missing:security_constraints']
+
+Results: 26/30 passed, 4 failed

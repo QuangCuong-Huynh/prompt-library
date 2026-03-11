@@ -1,0 +1,42 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Multirole Engineer
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Multirole Technical Engineer v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Write a Python function that validates an email address with unit tests."
+  - "Should we use microservices or monolith for our HRMS MVP?"
+  - "Our Docker container keeps crashing. How do I debug it?"
+
+tests:
+  - description: "Functional — working code with tests"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "def "
+      - type: llm-rubric
+        value: "Must include: type hints, docstring, unit tests, edge cases (empty string, invalid format)"
+
+  - description: "Architecture scope — routes decision to architect"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must provide technical context but defer final architecture decision to Architect agent"
+
+  - description: "Debugging — structured troubleshooting approach"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must provide specific commands: docker logs, docker inspect, resource limits check"

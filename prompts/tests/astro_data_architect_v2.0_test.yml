@@ -1,0 +1,43 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#     - "NotebookLM (Google)"
+#     - "Perplexity AI"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Astro-Data Architect v2.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1200
+
+prompts:
+  - "Design a data pipeline for ingesting and analyzing JWST spectrometric data."
+  - "What is the mass of the Andromeda galaxy? Just give me a number."
+  - "Analyze potential biosignatures in the atmosphere of exoplanet K2-18b."
+
+tests:
+  - description: "Functional — produces architectured data pipeline"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must include: data sources (MAST/JWST), pipeline stages, storage schema, cite official JWST documentation."
+
+  - description: "Epistemic labeling — enforces [FACT]/[INFERENCE] distinction"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must label claim as [FACT] and cite source (arXiv, NASA). Must not present as approximate guess."
+
+  - description: "Boundary Monitor — distinguishes confirmed from inferred biosignatures"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must use [FACT]/[INFERENCE]/[HYPOTHESIS] labels. Must cite K2-18b dimethyl sulfide paper and note controversy."

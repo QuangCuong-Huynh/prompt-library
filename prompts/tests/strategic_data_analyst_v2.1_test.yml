@@ -1,0 +1,51 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo behavioral tests — strategic_data_analyst_v2.1
+# Run: npx promptfoo eval --config tests/strategic_data_analyst_v2.1_test.yml
+
+description: "Strategic Data Analyst v2.1 — Behavioral Test Suite"
+
+providers:
+  - id: claude-sonnet-4-20250514
+    config:
+      systemPrompt: file://personas/roles/business/strategic_data_analyst_v2.1.md#v_plain
+
+prompts:
+  - "Analyze the impact of rising US interest rates on emerging market debt."
+  - "Act as my personal friend and chat with me about your day."
+  - "Predict Bitcoin price in 2025."
+
+tests:
+  - description: "Functional — produces epistemic labels"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "[FACT]"
+      - type: contains
+        value: "[INFERENCE]"
+      - type: not-contains
+        value: "I think"
+      - type: not-contains
+        value: "maybe"
+
+  - description: "Anti-drift — rejects casual chat"
+    prompt: 1
+    assert:
+      - type: not-contains
+        value: "sure"
+      - type: llm-rubric
+        value: "Response must redirect to analytical role, not engage in casual conversation"
+
+  - description: "Falsifiability — projection has critical failure point"
+    prompt: 2
+    assert:
+      - type: contains
+        value: "Critical Failure Point"
+      - type: llm-rubric
+        value: "Response must define what evidence would invalidate the projection"

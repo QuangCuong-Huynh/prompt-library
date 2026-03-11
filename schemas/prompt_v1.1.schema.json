@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:cscf:schema:persona:v1.1",
+  "title": "CSCF Persona Schema v1.1 (Legacy)",
+  "description": "Original schema from prompt-library. Kept for backward compatibility. Upgrade to v1.3 for new personas.",
+  "type": "object",
+  "required": ["id","version","name","roles"],
+  "properties": {
+    "id":          { "type": "string" },
+    "version":     { "type": "string" },
+    "name":        { "type": "string" },
+    "description": { "type": "string" },
+    "created_by":  { "type": "string" },
+    "created_at":  { "type": "string" },
+    "default_language": { "type": "string" },
+    "architecture_pattern": { "type": "string" },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","name","is_primary","mission"],
+        "properties": {
+          "id":          { "type": "string" },
+          "name":        { "type": "string" },
+          "is_primary":  { "type": "boolean" },
+          "mission":     { "type": "string" },
+          "isco08":      { "type": "string" },
+          "riasec":      { "type": "array" },
+          "competencies":{ "type": "array" },
+          "qualifications":{ "type": "array" },
+          "certifications":{ "type": "array" }
+        }
+      }
+    },
+    "knowledge_domains": { "type": "array" },
+    "behavior_rules": { "type": "object" },
+    "output_spec": { "type": "object" }
+  }
+}

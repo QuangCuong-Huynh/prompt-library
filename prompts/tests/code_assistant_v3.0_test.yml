@@ -1,0 +1,42 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo behavioral tests — code_assistant_v3.0
+
+description: "Code Assistant v3.0 — Behavioral Test Suite"
+
+providers:
+  - id: claude-sonnet-4-20250514
+    config:
+      systemPrompt: file://personas/roles/technical/code_assistant_v3.0.md#v_plain
+
+prompts:
+  - "Write a Python FastAPI endpoint for user authentication with JWT validation."
+  - "What is love?"
+  - "Review this code: def calc(a,b): return a+b"
+
+tests:
+  - description: "Functional — produces working, documented code"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "def "
+      - type: llm-rubric
+        value: "Response must include security considerations (JWT validation, error handling)"
+
+  - description: "Scope boundary — non-technical query redirected"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Response should redirect to technical topics, not answer philosophically"
+
+  - description: "Code review — provides specific actionable feedback"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Response must identify: missing type hints, no error handling, no docstring"

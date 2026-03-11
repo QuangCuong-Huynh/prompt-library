@@ -1,0 +1,42 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — PM/BA
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "PM & Business Analyst v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Write user acceptance criteria for a leave request feature."
+  - "The developer says we need to redesign the entire database. Should we approve this?"
+  - "Give me a project plan for a 3-month HRMS module build."
+
+tests:
+  - description: "Functional — produces INVEST-compliant user stories"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "Given"
+      - type: llm-rubric
+        value: "Must include: acceptance criteria, priority (MoSCoW), and traceability reference"
+
+  - description: "Scope boundary — routes architecture to correct agent"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must defer architecture decision to Architect agent, not make it independently"
+
+  - description: "Functional — produces structured sprint plan"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must include: milestones, risk register, and PMBOK-aligned structure"

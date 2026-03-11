@@ -1,0 +1,34 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Enterprise Architect v1.0 [SUPERSEDED] — Baseline Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 800
+
+prompts:
+  - "Design a microservices architecture for an HRMS platform."
+  - "Should we use REST or GraphQL for our internal APIs?"
+
+tests:
+  - description: "Superseded notice — agent references v1.1"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Response should note this is superseded version. Core architecture output still valid."
+
+  - description: "Functional — provides reasoned API design recommendation"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must provide tradeoffs for REST vs GraphQL. Must recommend based on use case, not dogma."

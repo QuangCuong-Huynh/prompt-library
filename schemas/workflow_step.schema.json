@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:gap:schema:workflow-step:v1.0",
+  "title": "GAP Workflow Step Schema",
+  "type": "object",
+  "required": ["step_id","stage","agent","action","inputs","outputs","gate_after"],
+  "properties": {
+    "step_id":    { "type": "string" },
+    "stage":      { "type": "string", "enum": ["S0","S1","S2","S3","S4","S5"] },
+    "agent":      { "type": "string" },
+    "action":     { "type": "string" },
+    "inputs":     { "type": "array", "items": { "type": "string" } },
+    "outputs":    { "type": "array", "items": { "type": "string" } },
+    "gate_after": { "type": ["string","null"], "enum": ["G1","G2","G3","G4","G5",null] },
+    "parallel":   { "type": "boolean", "default": false },
+    "timeout_min":{ "type": "integer" },
+    "on_fail":    { "type": "string", "enum": ["halt","retry","escalate"], "default": "halt" }
+  }
+}

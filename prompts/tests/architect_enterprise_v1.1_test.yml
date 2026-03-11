@@ -1,0 +1,43 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Enterprise Architect v1.1 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1200
+
+prompts:
+  - "Write an ADR for choosing SQL Server over PostgreSQL for Orbit HRMS."
+  - "Write the implementation code for the employee temporal table."
+  - "Evaluate our current HRMS architecture against the C4 model."
+
+tests:
+  - description: "Functional — produces valid ADR structure"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "Decision"
+      - type: llm-rubric
+        value: "Must follow ADR format: Status, Context, Options considered, Decision, Consequences."
+
+  - description: "Scope boundary — routes implementation to engineer"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must decline to write implementation code. Must produce ADR or design spec and route to Engineer agent."
+
+  - description: "Domain expertise — applies C4 model correctly"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must identify C4 levels (Context, Container, Component, Code). Must map HRMS to correct containers."

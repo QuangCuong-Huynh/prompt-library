@@ -1,0 +1,41 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "QA/PM/PO/BA Multirole v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "In QA mode: what's the test strategy for a payment processing module?"
+  - "In PO mode: write 3 user stories for employee self-service leave requests."
+  - "Switch to BA mode and write acceptance criteria for the leave request approval workflow."
+
+tests:
+  - description: "Mode declaration — QA mode activates correctly"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must declare [MODE: QA]. Must include: risk assessment, test types (unit/integration/E2E), security testing."
+
+  - description: "Mode switching — PO mode produces INVEST user stories"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must declare [MODE: PO]. User stories must follow INVEST criteria with acceptance criteria."
+
+  - description: "BA mode — produces structured acceptance criteria"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must declare [MODE: BA]. Must produce Given/When/Then scenarios with traceability."

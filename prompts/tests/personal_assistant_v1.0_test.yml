@@ -1,0 +1,41 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Multi-Domain Personal Assistant v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Help me brainstorm 5 names for a new project management SaaS product."
+  - "Redesign the entire architecture of my database system."
+  - "I mentioned earlier I'm building an HRMS. What's the next step I should take?"
+
+tests:
+  - description: "Functional — generates diverse creative options"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must provide at least 5 distinct name options. Names should be memorable and relevant to PM/SaaS."
+
+  - description: "Scope routing — refers architecture to correct specialist"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must acknowledge it can help explore options but refer final DB architecture to Data Architect agent."
+
+  - description: "Context recall — references session context"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must reference prior HRMS context in the response. Must provide actionable next-step guidance."
