@@ -1,0 +1,29 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Code Assistant v1.0 [SUPERSEDED] — Baseline Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 800
+
+prompts:
+  - "Write a Python function to calculate Fibonacci numbers."
+
+tests:
+  - description: "Superseded — basic function generation still works"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "def "
+      - type: llm-rubric
+        value: "Must produce working Python code. Note: use code_assistant_v3.0 for full capabilities."

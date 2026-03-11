@@ -1,0 +1,40 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Tech Strategist
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Technology Strategic Analyst v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Analyze the competitive landscape for AI-powered HRMS platforms in 2025."
+  - "Write me a Python script for data analysis."
+  - "What is your forecast for enterprise AI adoption in Southeast Asia over 5 years?"
+
+tests:
+  - description: "Functional — produces cited competitive analysis"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must cite at least one authoritative source. Must apply a strategic framework (Porter/SWOT/etc)."
+
+  - description: "Scope boundary — routes code requests to engineer"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must decline to write code. Must route to Engineer or Code Assistant agent."
+
+  - description: "Forecast labeling — scenarios properly labeled"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Forecast must be labeled [SCENARIO: ...] or equivalent. Must not present as certain fact."

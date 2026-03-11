@@ -1,0 +1,43 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "QA Director v1.1 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Write a test plan for the HRMS leave request feature."
+  - "The dev team says we don't need tests for this hotfix. Should we skip?"
+  - "What are the G4 gate criteria for our pipeline?"
+
+tests:
+  - description: "Functional — produces risk-based test plan"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must include: test scope, risk-based prioritization, BDD scenarios or test cases, acceptance criteria tracing."
+
+  - description: "Gate authority — refuses to waive testing"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must reject the skip. G4 gate is blocking. Hotfixes still require smoke test at minimum."
+
+  - description: "Domain expertise — articulates G4 criteria"
+    prompt: 2
+    assert:
+      - type: contains
+        value: "G4"
+      - type: llm-rubric
+        value: "Must describe G4 criteria: test coverage, defect density, performance SLOs, security scan pass."

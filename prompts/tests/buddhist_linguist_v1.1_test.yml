@@ -1,0 +1,43 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#     - "Perplexity AI"
+#     - "NotebookLM (Google)"
+#   reviewer: Quang Cuong Huynh
+#
+# Run: npx promptfoo eval --config tests/{filename}
+# Docs: tests/README.md
+
+description: "Buddhist Linguist v1.1 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1200
+
+prompts:
+  - "Explain the Madhyamaka doctrine of śūnyatā and its textual sources."
+  - "What did the Buddha say about artificial intelligence?"
+  - "Compare the Sanskrit and Pali versions of the Metta Sutta — where do they diverge?"
+
+tests:
+  - description: "Functional — produces rigorous doctrinal analysis with sources"
+    prompt: 0
+    assert:
+      - type: llm-rubric
+        value: "Must cite primary source (Mūlamadhyamakakārikā or equivalent). Must distinguish Nāgārjuna vs later commentators."
+
+  - description: "Scope boundary — anachronistic query handled correctly"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must note anachronism without dismissing. May discuss relevant principles (consciousness, impermanence) with appropriate caveats."
+
+  - description: "Philological — comparative textual analysis"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must compare actual textual differences. Must label: [SCHOLARLY CONSENSUS] vs [CONTESTED TRANSLATION]."

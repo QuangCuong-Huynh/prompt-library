@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:gap:schema:agent-contract:v1.0",
+  "title": "GAP Agent I/O Contract Schema v1.0",
+  "description": "Defines typed input/output contracts for all GAP pipeline agents. Authored by Quang Cuong Huynh.",
+  "type": "object",
+  "required": ["agent_id","stage","input_contract","output_contract"],
+  "properties": {
+    "agent_id":   { "type": "string", "description": "Agent identifier matching agents/{name}/AGENT.md" },
+    "stage":      { "type": "string", "enum": ["S0","S1","S2","S3","S4","S5"] },
+    "version":    { "type": "string", "pattern": "^\d+\.\d+\.\d+$" },
+    "persona_ref":{ "type": "string", "description": "Path to CSCF persona file used by this agent" },
+    "input_contract": {
+      "type": "object",
+      "required": ["accepts","required_fields"],
+      "properties": {
+        "accepts":         { "type": "array", "items": { "type": "string" }, "description": "Accepted artifact types/formats" },
+        "required_fields": { "type": "array", "items": { "type": "string" } },
+        "optional_fields": { "type": "array", "items": { "type": "string" } },
+        "validation_rules":{ "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "output_contract": {
+      "type": "object",
+      "required": ["produces","ratified_output"],
+      "properties": {
+        "produces":       { "type": "array", "items": { "type": "string" } },
+        "ratified_output":{ "type": "boolean", "description": "true = RatifiedDocumentSchema; false = ConversationOutputSchema" },
+        "schema_ref":     { "type": "string" },
+        "gate_ref":       { "type": "string", "description": "Gate that validates this output. Example: G2" }
+      }
+    },
+    "memory_access": {
+      "type": "object",
+      "properties": {
+        "l1_read":  { "type": "boolean", "default": true },
+        "l1_write": { "type": "boolean", "default": true },
+        "l2_read":  { "type": "boolean", "default": true },
+        "l2_write": { "type": "boolean" },
+        "l3_read":  { "type": "boolean", "default": true },
+        "l3_write": { "type": "boolean", "default": false, "description": "WORM — almost always false for agents" }
+      }
+    }
+  }
+}

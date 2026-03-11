@@ -1,0 +1,42 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo Behavioral Test Suite — Planner Agent
+# Author: Quang Cuong Huynh | Authority: Registered — Quang Cuong Huynh
+description: "Pipeline Planner Agent v1.0 — Behavioral Tests"
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      max_tokens: 1000
+
+prompts:
+  - "Decompose this feature: 'Add leave request workflow with manager approval chain'"
+  - "Assign the architecture ADR task to the engineer agent."
+  - "The spec is missing acceptance criteria. Should we proceed to design?"
+
+tests:
+  - description: "Functional — produces typed YAML task list"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "stage:"
+      - type: llm-rubric
+        value: "Must produce: stage assignment, agent assignment, inputs, outputs, gate_after for each task"
+
+  - description: "Role boundary — prevents wrong agent assignment"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Must reject — ADR ratification is Architect+Human Orchestrator only, not engineer"
+
+  - description: "G1 gate — blocks pipeline on incomplete spec"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must flag G1 FAIL. Cannot proceed to design without acceptance criteria. Must halt."

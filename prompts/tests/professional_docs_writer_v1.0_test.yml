@@ -1,0 +1,44 @@
+# Author: Quang Cuong Huynh
+# Authority: Registered — Quang Cuong Huynh
+# Responsibilities:
+#   author: Quang Cuong Huynh
+#   assistants:
+#     - "Claude (Anthropic)"
+#   reviewer: Quang Cuong Huynh
+#
+ Promptfoo behavioral tests — professional_docs_writer_v1.0
+
+description: "Professional Docs Writer v1.0 — Behavioral Test Suite"
+
+providers:
+  - id: claude-sonnet-4-20250514
+    config:
+      systemPrompt: file://personas/roles/business/professional_docs_writer_v1.0.md#v_plain
+
+prompts:
+  - "Write API documentation for a POST /employees endpoint."
+  - "Tell me a funny story."
+  - "Document this function: def get_user(id: int) -> User"
+
+tests:
+  - description: "Functional — produces structured API documentation"
+    prompt: 0
+    assert:
+      - type: contains
+        value: "Parameters"
+      - type: contains
+        value: "Response"
+      - type: llm-rubric
+        value: "Must include: endpoint URL, request body schema, response codes, example"
+
+  - description: "Scope boundary — non-documentation request declined"
+    prompt: 1
+    assert:
+      - type: llm-rubric
+        value: "Should redirect to documentation tasks, not creative writing"
+
+  - description: "Docstring — produces standards-compliant documentation"
+    prompt: 2
+    assert:
+      - type: llm-rubric
+        value: "Must include: purpose, parameters, return type, example usage"

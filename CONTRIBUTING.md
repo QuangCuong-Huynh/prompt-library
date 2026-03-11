@@ -1,70 +1,52 @@
 # Contributing to Prompt Library
 
+Welcome! This project is designed to stay maintainable, bilingual, and governance-ready. Read the sections below before opening an issue or pull request.
+
 Thank you for your interest in contributing to Prompt Library! This document explains how to participate.
 
 ## Code of Conduct
 
-Be respectful, inclusive, and professional. We're building a community around enterprise AI governance.
+Be patient, respectful, and curious. We are building a community that values inclusivity and shared learning while keeping high standards for safety and auditability.
 
 ## How to Contribute
 
-### 1. Report Issues
+### 1. Report Issues and Suggest Improvements
 
-Found a bug or have a suggestion?
+1. Search [existing issues](https://github.com/organization/prompt-library/issues) or discussions for similar topics.
+2. Open a new issue with a clear title, reproducible steps (if applicable), expected versus actual results, system information, and any relevant files or models.
+3. Mention which part of the library is affected (`docs/`, `prompts/`, `scripts/`, `schemas/`).
+4. Label whether the issue is a bug, enhancement, documentation gap, or governance request.
 
-1. Check [existing issues](https://github.com/organization/prompt-library/issues)
-2. Create a new issue with:
-   - Clear description
-   - Steps to reproduce (if bug)
-   - Expected vs. actual behavior
-   - System information
+### 2. Submit Documentation & Publication Work
 
-### 2. Suggest Enhancements
+Help improve documentation by focusing on the folders under `docs/` when improving frameworks, governance packages, or audit trails.
 
-Have an idea for improvement?
+1. Check [existing docs](docs/) and identify gaps or improvements.
+2. Keep English and Vietnamese versions aligned in the same file whenever possible.
+3. Use the report naming conventions (e.g., `REPORT_01_...` and `OFFICIAL_PUBLICATION_PACKAGE.md`) when publishing new documents.
+4. Link improvements to the appropriate schema (`schemas/prompt_v1.3.schema.json`, `agent_contract.schema.json`, `provenance_record.schema.json`).
+5. Submit pull request with clear changes and proper formatting.
 
-1. Open a GitHub Discussion
-2. Describe the problem it solves
-3. Explain why it's needed
-4. Show how it aligns with framework
+### 3. Contribute Prompts
 
-### 3. Submit Documentation
+Create or edit specialized prompts in the `prompts/` directory. Each persona includes YAML metadata plus `v_plain` and `v_structured` sections.
 
-Help improve documentation:
+1. Design using the Psychometric Stack (ISCO-08, RIASEC, Jungian cognitive stack, OCEAN).
+2. Follow metadata fields defined in `schemas/prompt_v1.3.schema.json` (e.g., `artifact_id`, `roles`, `ocean`).
+3. Keep responses available in both English and Vietnamese, with consistent terminology and guardrails.
+4. Add regression checks to `prompts/tests/` to capture expected answers for at least three sample queries.
+5. Run `python scripts/validate_agents.py <file>` (or `--all-personas`) before submitting to confirm metadata completeness.
+6. Submit pull request after ensuring a quality score ≥8.0/10.
 
-1. Check [existing docs](docs/)
-2. Identify gaps or improvements
-3. Submit pull request with:
-   - Clear changes
-   - Proper formatting
-   - Links to related docs
+### 4. Contribute Code (Scripts & Automation)
 
-### 4. Contribute Prompts
+Improve tools and automation in the `tools/` and `scripts/` directories:
 
-Create specialized prompts:
-
-1. Design using Psychometric Stack
-2. Test thoroughly (see Testing below)
-3. Document with examples
-4. Submit pull request
-
-**Requirements:**
-- Quality score ≥8.0/10
-- Dual-language support (EN + VI)
-- Complete metadata block
-- 3+ example queries
-- Unit tests passing
-- Governance approval
-
-### 5. Contribute Code
-
-Improve tools and automation:
-
-1. Check [tools/](tools/) directory
-2. Follow existing patterns
-3. Add tests
-4. Document usage
-5. Submit pull request
+1. Follow existing patterns and add tests.
+2. `scripts/validate_agents.py` is the canonical prompt validator.
+3. `scripts/generate_sha256.py`, `scripts/generate_timestamp.py`, and `scripts/register_artifact.py` help stamp releases and can be extended.
+4. Avoid adding secrets or proprietary credentials to the repo.
+5. Submit pull request.
 
 ## Development Workflow
 
@@ -72,107 +54,37 @@ Improve tools and automation:
 
 ```bash
 # Clone repository
-git clone https://github.com/organization/prompt-library.git
+git clone https://github.com/QuangCuong-Huynh/prompt-library.git
 cd prompt-library
 
 # Create feature branch
-git checkout -b feature/your-feature-name
+git checkout -b codex/your-feature-name
 
 # Install dependencies (if applicable)
 pip install -r requirements.txt
 npm install
 ```
 
-### Making Changes
+### Making Changes & Testing
 
-```bash
-# Make your changes
-# Edit files in appropriate directory
+1. Make your changes in the appropriate directory.
+2. Run applicable validators and tests:
 
-# Test locally
-python -m pytest tests/
-npm test
+   ```bash
+   # For prompt contributions
+   python scripts/validate_agents.py --all-personas
+   
+   # For code contributions
+   python -m pytest tests/ -v
+   pytest --cov=prompt_library tests/
+   
+   # For documentation
+   npx markdown-link-check docs/**/*.md
+   npx spellchecker docs/**/*.md
+   ```
 
-# Commit with conventional format
-git commit -m "feat(docs): add advanced examples
-
-- Added section on advanced use cases
-- Included 5 new examples
-- Updated references
-- Closes #123"
-
-# Push branch
-git push origin feature/your-feature-name
-
-# Create Pull Request on GitHub
-```
-
-### Pull Request Process
-
-1. **Title:** Clear, descriptive title
-   - `feat(prompt): add regulatory compliance analyzer`
-   - `fix(docs): correct ISCO-08 reference`
-   - `chore(ci): update validation workflow`
-
-2. **Description:** Explain:
-   - What changes
-   - Why it's needed
-   - How to test
-   - Related issues
-
-3. **Review:** Wait for 2+ approvals
-   - Code/content review
-   - Governance review (if applicable)
-
-4. **Merge:** Maintainers will merge after approval
-
-## Testing & Validation
-
-### For Prompt Contributions
-
-```yaml
-testing_requirements:
-  unit_tests:
-    - Role adherence: 10 queries
-    - Source attribution: 10 claims
-    - Guardrail enforcement: 5 injection attempts
-    - Edge cases: 5+ scenarios
-  
-  quality_gate:
-    - Quality score: ≥8.0/10
-    - Test coverage: ≥90%
-    - Security audit: PASS
-    - Governance: APPROVED
-```
-
-### For Code Contributions
-
-```bash
-# Run tests
-python -m pytest tests/ -v
-
-# Check coverage
-pytest --cov=prompt_library tests/
-
-# Lint code
-pylint prompt_library/
-
-# Type check
-mypy prompt_library/
-```
-
-### For Documentation
-
-```bash
-# Check links
-npx markdown-link-check docs/**/*.md
-
-# Spell check
-npx spellchecker docs/**/*.md
-
-# Validate YAML
-python -m yaml.safe_load < docs/**/*.yaml
-```
+3. Commit with conventional format (see below).
+4. Push your branch and create a clean Pull Request on GitHub.
 
 ## Standards & Guidelines
 
@@ -186,112 +98,49 @@ python -m yaml.safe_load < docs/**/*.yaml
 
 - **Markdown:** GFM (GitHub Flavored Markdown)
 - **Headings:** Consistent hierarchy
+- **Dual language:** English + Vietnamese clearly labeled
 - **Code blocks:** Language-specific syntax highlighting
-- **Examples:** Clear, runnable
 
-### Governance Standards
+### Commit Guidelines
 
-- **YAML metadata:** All required fields
-- **UUID v7:** For new documents
-- **ISO 8601:** For timestamps
-- **Dual language:** English + Vietnamese
+Use Conventional Commits: `<type>(<scope>): <subject>`
 
-## Commit Guidelines
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
 
-Use Conventional Commits:
-
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation
-- `style`: Formatting
-- `refactor`: Code restructuring
-- `test`: Test additions
-- `chore`: Maintenance
-
-**Examples:**
-```
-feat(prompt): add regulatory compliance analyzer
-
-- ISCO-08 code: 2421
-- RIASEC: C-I-E
-- Includes 15+ guardrails
-- Quality: 9.2/10
-- Closes #234
-
-docs(readme): improve quick start section
-
-- Added visual diagram
-- Improved code examples
-- Clarified prerequisite steps
-
-chore(ci): update validation workflow
-
-- Add YAML linting
-- Update dependencies
-- Improve error messages
-```
+Example: `feat(prompt): add regulatory compliance analyzer`
 
 ## Review Checklist
 
-### Code Review Checklist
+### Content & Code Review
 
-```markdown
-- [ ] Code follows style guidelines
-- [ ] Type hints present
+- [ ] Metadata complete and follows schemas
+- [ ] Dual-language support (EN + VI) aligned
 - [ ] Tests added and passing
 - [ ] Documentation updated
-- [ ] No security issues
-- [ ] Performance acceptable
-```
+- [ ] No security issues or secrets exposed
 
-### Content Review Checklist
+### Governance Review
 
-```markdown
-- [ ] Metadata complete
-- [ ] Examples tested
-- [ ] References cited
-- [ ] Grammar/spelling correct
-- [ ] Links working
-- [ ] Compliance verified
-```
-
-### Governance Review Checklist
-
-```markdown
-- [ ] ISO 27001 aligned
-- [ ] ISO 9001 compliant
+- [ ] ISO 27001/9001 aligned
 - [ ] No PII exposed
 - [ ] Audit trail complete
-- [ ] Authority approval obtained
-```
+- [ ] Authority approval obtained (if applicable)
 
-## Questions?
+## License & Support
 
-- **📧 Email:** framework-team@enterprise.ai
-- **💬 Discussions:** https://github.com/organization/prompt-library/discussions
-- **📚 Docs:** https://prompt-library.org
-- **🐙 Issues:** https://github.com/organization/prompt-library/issues
+- Prompt Library is released under the [MIT License](/LICENSE.md).
+- Need different licensing (commercial, academic, or partner)? Mention it in your issue or PR.
 
 ## Recognition
 
-Contributors are recognized:
-- In release notes
-- On contributors page
-- In project documentation
-- In community celebrations
+Contributors are recognized in release notes, on the contributors page, and in community celebrations.
 
-## License
+## Questions?
 
-By contributing, you agree your contributions are licensed under the same Proprietary Enterprise License.
+- **📧 Email:** <framework-team@enterprise.ai>
+- **💬 Discussions:** <https://github.com/organization/prompt-library/discussions>
+- **📚 Docs:** <https://prompt-library.org>
+- **🐙 Issues:** <https://github.com/organization/prompt-library/issues>
 
 ---
 

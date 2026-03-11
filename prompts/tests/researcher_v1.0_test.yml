@@ -1,0 +1,6 @@
+test_cases:
+  - name: "Researcher Personas Load Success"
+    assertions:
+      - check_uas_header_present
+      - check_persona_version_is_valid
+      - check_competency_count_greater_than_0
